@@ -3,10 +3,13 @@
 
 create table if not exists pm_contacts (
   id uuid primary key default gen_random_uuid(),
+  job_id uuid,
   name text not null,
   email text not null,
   created_at timestamptz not null default now()
 );
+
+alter table pm_contacts add column if not exists job_id uuid;
 
 create table if not exists pm_jobs (
   id uuid primary key default gen_random_uuid(),
@@ -56,6 +59,13 @@ create table if not exists pm_tasks (
   status text not null default 'Open',
   created_at timestamptz not null default now()
 );
+
+do $
+begin
+  alter table pm_contacts
+  add constraint pm_contacts_job_fk foreign key (job_id) references pm_jobs(id) on delete cascade;
+exception when duplicate_object then null;
+end $;
 
 alter table pm_contacts enable row level security;
 alter table pm_jobs enable row level security;
