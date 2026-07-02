@@ -18,3 +18,4 @@ This is separate from the Material Delivery Alerts app.
 4. Upload this folder to GitHub Pages or another static website host.
 
 Drag-and-drop currently records file names and notes. Full file upload/storage can be added next with Supabase Storage.
+Live project manager site
